@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>underline-solid.svg</file>
+        <file>italic-solid.svg</file>
+        <file>table-cells-solid.svg</file>
+        <file>align-center-solid.svg</file>
+        <file>align-justify-solid.svg</file>
+        <file>align-left-solid.svg</file>
+        <file>align-right-solid.svg</file>
+        <file>bold-solid.svg</file>
+        <file>list-ol-solid.svg</file>
+        <file>list-ul-solid.svg</file>
+        <file>highlighter-solid.svg</file>
+        <file>AddDoc.svg</file>
+        <file>DelDoc.svg</file>
+        <file>font-solid.svg</file>
+        <file>6137877_art_design_paint_pallet_format_icon.svg</file>
+        <file>color.svg</file>
+        <file>cleatText.svg</file>
+    </qresource>
+</RCC>

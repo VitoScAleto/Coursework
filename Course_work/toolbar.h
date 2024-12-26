@@ -1,0 +1,319 @@
+#ifndef TOOLBAR_H
+#define TOOLBAR_H
+#include <QWidget>
+#include <QTextEdit>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QFontDialog>
+#include <QColorDialog>
+#include <QTextCharFormat>
+#include <QTextCursor>
+#include <QComboBox>
+#include <QToolBar>
+#include <QAction>
+#include <QIcon>
+#include <QTextBlockFormat>
+#include <QTableWidget>
+#include <QInputDialog>
+#include <QDebug>
+
+#include <QWidget>
+#include <QTextEdit>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QComboBox>
+#include <QFontDialog>
+#include <QColorDialog>
+#include <QInputDialog>
+#include <QScrollArea>
+#include <QLabel>
+
+class ToolBar : public QWidget
+{
+    Q_OBJECT
+
+public:
+    ToolBar(QTextEdit *textEdit, QWidget *parent = nullptr) : QWidget(parent), textEdit(textEdit)
+    {
+            setFixedHeight(130);  // Устанавливаем фиксированную высоту панели инструментов
+            setFixedWidth(450);   // Устанавливаем фиксированную ширину панели инструментов
+
+            // Главный макет
+            QVBoxLayout *mainLayout = new QVBoxLayout(this);
+
+            // Прокручиваемая область
+            QScrollArea *scrollArea = new QScrollArea(this);
+            scrollArea->setWidgetResizable(true);  // Делаем область прокручиваемой по мере необходимости
+            QWidget *toolBarWidget = new QWidget(scrollArea);  // Это будет виджет, который будет прокручиваться
+
+            QVBoxLayout *toolBarLayout = new QVBoxLayout(toolBarWidget);  // Макет для панели инструментов
+
+            // Макет с кнопками для форматирования текста
+            QHBoxLayout *layout1 = new QHBoxLayout();
+            layout1->setSpacing(10);  // Устанавливаем промежутки между кнопками
+            layout1->addWidget(createButtonWithIcon(":icons/font-solid.svg", &ToolBar::changeFont));
+            layout1->addWidget(createButtonWithIcon(":icons/bold-solid.svg", &ToolBar::toggleBold));
+            layout1->addWidget(createButtonWithIcon(":icons/italic-solid.svg", &ToolBar::toggleItalic));
+            layout1->addWidget(createButtonWithIcon(":icons/underline-solid.svg", &ToolBar::toggleUnderline));
+            layout1->addWidget(createButtonWithIcon(":icons/color.svg", &ToolBar::changeColor));
+            layout1->addWidget(createButtonWithIcon(":icons/highlighter-solid.svg", &ToolBar::changeBgColor));
+
+            // Выбор шрифта
+            QComboBox *fontSizeBox = new QComboBox(this);
+            for (int i = 8; i <= 48; i += 2)
+                fontSizeBox->addItem(QString::number(i));
+            connect(fontSizeBox, &QComboBox::currentTextChanged, this, &ToolBar::changeFontSize);
+            fontSizeBox->setFixedSize(40,40);
+            layout1->addWidget(fontSizeBox);
+
+
+
+            // Макет с кнопками для выравнивания
+            QHBoxLayout *layout2 = new QHBoxLayout();
+            layout2->setSpacing(10);  // Промежутки между кнопками
+            layout2->addWidget(createButtonWithIcon(":icons/cleatText.svg", &ToolBar::clearFormatting));
+            layout2->addWidget(createButtonWithIcon(":icons/align-left-solid.svg", &ToolBar::alignLeft));
+            layout2->addWidget(createButtonWithIcon(":icons/align-center-solid.svg", &ToolBar::alignCenter));
+            layout2->addWidget(createButtonWithIcon(":icons/align-right-solid.svg", &ToolBar::alignRight));
+            layout2->addWidget(createButtonWithIcon(":icons/align-justify-solid.svg", &ToolBar::alignJustify));
+
+//            // Макет с кнопками для списков
+//            QHBoxLayout *layout3 = new QHBoxLayout();
+//            layout3->setSpacing(10);  // Промежутки между кнопками
+            layout2->addWidget(createButtonWithIcon(":icons/list-ul-solid.svg", &ToolBar::insertBulletList));
+            layout2->addWidget(createButtonWithIcon(":icons/list-ol-solid.svg", &ToolBar::insertNumberedList));
+
+            // Макет для заголовков
+            QHBoxLayout *layout4 = new QHBoxLayout();
+            layout4->setSpacing(10);  // Промежутки между кнопками
+//            QComboBox *headingBox = new QComboBox(this);
+//            headingBox->addItem("Normal");
+//            headingBox->addItem("Heading 1");
+//            headingBox->addItem("Heading 2");
+//            headingBox->addItem("Heading 3");
+//            connect(headingBox, &QComboBox::currentTextChanged, this, &ToolBar::changeHeading);
+//            layout4->addWidget(headingBox);
+
+            // Кнопка вставки таблицы
+            layout2->addWidget(createButtonWithIcon(":icons/table-cells-solid.svg", &ToolBar::insertTable));
+
+            // Добавление всех макетов на панель инструментов
+            toolBarLayout->addLayout(layout1);
+            toolBarLayout->addLayout(layout2);
+//            toolBarLayout->addLayout(layout3);
+            toolBarLayout->addLayout(layout4);
+
+            // Устанавливаем прокручиваемую область с виджетом
+            scrollArea->setWidget(toolBarWidget);
+            mainLayout->addWidget(scrollArea);
+            setLayout(mainLayout);
+    }
+
+    QPushButton* createButtonWithIcon(const QString &iconPath, void (ToolBar::*slot)())
+    {
+        QPushButton *button = new QPushButton();
+        QIcon icon(iconPath);  // Загружаем иконку
+        button->setIcon(icon);  // Устанавливаем иконку
+        button->setIconSize(QSize(16, 16));
+        button->setFixedSize(40, 40);
+        connect(button, &QPushButton::clicked, this, slot);  // Привязываем слот
+        return button;
+    }
+    void setTextEdit(QTextEdit *newTextEdit)
+    {
+        textEdit = newTextEdit;
+    }
+
+private:
+    QPushButton* createButton(const QString& text, void (ToolBar::*slot)()) {
+        QPushButton *button = new QPushButton(text, this);
+        connect(button, &QPushButton::clicked, this, slot);
+        return button;
+    }
+
+private slots:
+    void changeFont()
+    {
+        if (!textEdit)
+            return;
+
+        bool ok;
+        QFont font = QFontDialog::getFont(&ok, textEdit->currentFont(), this);
+        if (ok) {
+            QTextCursor cursor = textEdit->textCursor();
+            QTextCharFormat format;
+            format.setFont(font);
+            cursor.mergeCharFormat(format);
+            textEdit->mergeCurrentCharFormat(format);
+        }
+    }
+
+    void toggleBold()
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextCharFormat format = cursor.charFormat();
+        format.setFontWeight(format.fontWeight() == QFont::Bold ? QFont::Normal : QFont::Bold);
+        cursor.mergeCharFormat(format);
+        textEdit->mergeCurrentCharFormat(format);
+    }
+
+    void toggleItalic()
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextCharFormat format = cursor.charFormat();
+        format.setFontItalic(!format.fontItalic());
+        cursor.mergeCharFormat(format);
+        textEdit->mergeCurrentCharFormat(format);
+    }
+
+    void toggleUnderline()
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextCharFormat format = cursor.charFormat();
+        format.setFontUnderline(!format.fontUnderline());
+        cursor.mergeCharFormat(format);
+        textEdit->mergeCurrentCharFormat(format);
+    }
+
+    void changeColor()
+    {
+        if (!textEdit)
+            return;
+
+        QColor color = QColorDialog::getColor(Qt::black, this);
+        if (color.isValid()) {
+            QTextCursor cursor = textEdit->textCursor();
+            QTextCharFormat format;
+            format.setForeground(color);
+            cursor.mergeCharFormat(format);
+            textEdit->mergeCurrentCharFormat(format);
+        }
+    }
+
+    void changeBgColor()
+    {
+        if (!textEdit)
+            return;
+
+        QColor color = QColorDialog::getColor(Qt::white, this);
+        if (color.isValid()) {
+            QTextCursor cursor = textEdit->textCursor();
+            QTextCharFormat format;
+            format.setBackground(color);
+            cursor.mergeCharFormat(format);
+            textEdit->mergeCurrentCharFormat(format);
+        }
+    }
+
+    void changeFontSize(const QString &size)
+    {
+        if (!textEdit)
+            return;
+
+        bool ok;
+        int fontSize = size.toInt(&ok);
+        if (ok) {
+            QTextCursor cursor = textEdit->textCursor();
+            QTextCharFormat format;
+            format.setFontPointSize(fontSize);
+            cursor.mergeCharFormat(format);
+            textEdit->mergeCurrentCharFormat(format);
+        }
+    }
+
+    void alignLeft()
+    {
+        if (textEdit)
+            textEdit->setAlignment(Qt::AlignLeft);
+    }
+
+    void alignCenter()
+    {
+        if (textEdit)
+            textEdit->setAlignment(Qt::AlignCenter);
+    }
+
+    void alignRight()
+    {
+        if (textEdit)
+            textEdit->setAlignment(Qt::AlignRight);
+    }
+
+    void alignJustify()
+    {
+        if (textEdit)
+            textEdit->setAlignment(Qt::AlignJustify);
+    }
+
+    void clearFormatting()
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextCharFormat format;
+        cursor.setCharFormat(format);
+        textEdit->mergeCurrentCharFormat(format);
+    }
+
+    void insertBulletList()
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextListFormat listFormat;
+        listFormat.setStyle(QTextListFormat::ListDisc);
+        cursor.createList(listFormat);
+    }
+
+    void insertNumberedList()
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextListFormat listFormat;
+        listFormat.setStyle(QTextListFormat::ListDecimal);
+        cursor.createList(listFormat);
+    }
+
+
+
+    void insertTable()
+    {
+        if (!textEdit)
+            return;
+
+        bool ok;
+        int rows = QInputDialog::getInt(this, "Insert Table", "Rows:", 2, 1, 100, 1, &ok);
+        if (!ok) return;
+
+        int columns = QInputDialog::getInt(this, "Insert Table", "Columns:", 2, 1, 100, 1, &ok);
+        if (!ok) return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextTableFormat tableFormat;
+        tableFormat.setBorder(1);
+        tableFormat.setCellSpacing(12);
+        tableFormat.setCellPadding(12);
+        cursor.insertTable(rows, columns, tableFormat);
+    }
+
+private:
+    QTextEdit *textEdit;
+};
+
+
+#endif // TOOLBAR_H

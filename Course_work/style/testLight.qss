@@ -1,0 +1,286 @@
+/* Общие стили для всех элементов */
+* {
+    font-family: "Segoe UI", "Noto Sans Mono CJK TC", sans-serif;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s ease; /* Плавные анимации для всех элементов */
+}
+
+/* Светлая тема */
+QWidget {
+    background-color: #ffffff; /* Белый фон */
+    color: #333333; /* Темный текст */
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Кнопки */
+QPushButton {
+    background-color: #e0e0e0; /* Светлый серый фон */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    color: #333333; /* Темный текст */
+    padding: 6px 12px;
+}
+
+QPushButton:hover {
+    background-color: #d4d4d4; /* Немного темнее при наведении */
+    border: 1px solid #bbbbbb; /* Подсветка границы при наведении */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень при наведении */
+}
+
+QPushButton:pressed {
+    background-color: #c8c8c8; /* Темнее при нажатии */
+    border: 1px solid #aaaaaa;
+}
+
+/* Ввод текста и комбинированные элементы */
+QLineEdit, QTextEdit, QComboBox {
+    background-color: #f4f4f4; /* Светлый фон */
+    color: #333333; /* Темный текст */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    padding: 4px;
+    border-radius: 3px;
+}
+
+QTextEdit {
+    background-color: #f0f0f0; /* Еще более светлый фон для текста */
+    min-height: 100px;
+}
+
+QLineEdit:focus, QTextEdit:focus {
+    border-color: #bbbbbb; /* Легкая сероватая рамка при фокусе */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Легкая тень при фокусе */
+}
+
+QComboBox {
+    background-color: #f0f0f0; /* Светлый фон для выпадающего списка */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    padding: 6px;
+    border-radius: 4px;
+}
+
+QComboBox:hover {
+    border-color: #bbbbbb;
+}
+
+QComboBox::down-arrow {
+    border: none;
+    image: url(':/icons/down-arrow.svg');
+}
+
+QComboBox::drop-down {
+    background-color: #e0e0e0; /* Светлый фон для стрелки */
+}
+
+/* Списки */
+QListWidget {
+    background-color: #f4f4f4; /* Светлый фон */
+    color: #333333; /* Темный текст */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    padding: 4px;
+    border-radius: 4px;
+}
+
+QListWidget::item:hover {
+    background-color: #e0e0e0; /* Немного темнее при наведении */
+}
+
+QListWidget::item:selected {
+    background-color: #d0d0d0; /* Светлый фон при выделении */
+    color: #333333; /* Темный текст */
+}
+
+/* Панель инструментов */
+QWidget#ToolBar {
+    background-color: #f4f4f4; /* Светлый фон */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    padding: 6px;
+}
+
+/* Площадка для прокрутки (ScrollArea) */
+QScrollArea {
+    background-color: transparent;
+    border: none;
+}
+
+QScrollArea::widget {
+    background-color: #f4f4f4; /* Светлый фон прокручиваемого содержимого */
+    border-radius: 4px;
+    padding: 10px;
+}
+
+/* Эффекты на ScrollBar */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background-color: #e0e0e0; /* Светлый фон скроллбаров */
+    width: 12px;
+    height: 12px;
+}
+
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background-color: #b0b0b0; /* Тёмно-серый для ползунка */
+    border-radius: 6px;
+}
+
+QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
+    background-color: #a0a0a0; /* Темнее при наведении */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal,
+QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
+    background: none;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::add-page:horizontal,
+QScrollBar::sub-page:vertical, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+
+/* Выделение текста */
+QTextEdit:focus {
+    border: 1px solid #bbbbbb; /* Легкая сероватая рамка при фокусе */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Легкая тень при фокусе */
+}
+
+/* Меню */
+QMenuBar {
+    background-color: #f0f0f0; /* Светлый фон */
+    color: #333333; /* Темный текст */
+}
+
+QMenuBar::item {
+    padding: 8px;
+    background-color: transparent;
+}
+
+QMenuBar::item:selected {
+    background-color: #e0e0e0; /* Слегка темнее при выделении */
+}
+
+QMenu {
+    background-color: #f4f4f4; /* Светлый фон для меню */
+    border: 1px solid #cccccc; /* Светлая рамка */
+}
+
+QMenu::item:selected {
+    background-color: #e0e0e0; /* Слегка темнее при выделении */
+}
+
+QMenu::item:hover {
+    background-color: #d0d0d0; /* Немного темнее при наведении */
+}
+
+/* Стиль для ToolButton */
+QToolButton {
+    background: none;
+    border: none;
+    padding: 4px;
+    margin: 2px;
+}
+
+QToolButton:hover {
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+QToolButton:pressed {
+    background-color: #d4d4d4;
+}
+
+QToolButton::menu-indicator {
+    image: url(':/icons/arrow-down.svg');
+}
+
+/* Стили для заголовков */
+QComboBox#headingBox {
+    background-color: #f4f4f4;
+    color: #333333;
+    border: 1px solid #cccccc;
+    padding: 4px;
+}
+
+QComboBox#headingBox::item:selected {
+    background-color: #d0d0d0; /* Светлый фон при выделении */
+}
+
+/* Диалог выбора цвета (QColorDialog) */
+QColorDialog {
+    background-color: #ffffff; /* Белый фон */
+    color: #333333; /* Темный текст */
+    border-radius: 10px;
+    padding: 5px;
+}
+
+QColorDialog QToolButton {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QColorDialog QToolButton:hover {
+    background-color: #d4d4d4;
+}
+
+QColorDialog QToolButton:pressed {
+    background-color: #c8c8c8;
+}
+
+/* Диалог ввода чисел (QInputDialog) */
+QInputDialog {
+    background-color: #ffffff; /* Белый фон */
+    color: #333333; /* Темный текст */
+    border-radius: 8px;
+    padding: 10px;
+}
+
+QInputDialog QLineEdit {
+    background-color: #f4f4f4; /* Светлый фон для поля ввода */
+    border: 1px solid #cccccc; /* Светлая рамка */
+    border-radius: 5px;
+    padding: 8px;
+}
+
+QInputDialog QPushButton {
+    background-color: #e0e0e0;
+    color: #333333;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+QInputDialog QPushButton:hover {
+    background-color: #d4d4d4;
+}
+
+QTextTable {
+    border: 1px solid #cccccc; /* Светлая рамка для таблицы */
+    border-radius: 4px;         /* Скругленные углы */
+    background-color: #ffffff;  /* Белый фон для таблицы */
+}
+
+/* Стилизация ячеек таблицы */
+QTextTableCell {
+    border: 1px solid #cccccc;  /* Светлая рамка ячеек */
+    padding: 8px;                /* Отступы внутри ячеек */
+    background-color: #f9f9f9;  /* Светлый фон ячеек */
+    color: #333333;              /* Темный текст в ячейках */
+}
+
+/* Стилизация ячеек при наведении */
+QTextTableCell:hover {
+    background-color: #e8e8e8;  /* Немного темнее фон при наведении */
+}
+
+/* Стилизация текста в ячейках */
+QTextBlock {
+    color: #333333;             /* Темный цвет текста */
+    font-size: 12px;            /* Размер шрифта текста */
+    font-family: "Segoe UI", "Arial", sans-serif;  /* Шрифт текста */
+}
+
+/* Стилизация заголовков таблицы */
+QTextTable::header {
+    background-color: #e0e0e0;  /* Светлый фон для заголовков */
+    color: #333333;              /* Темный текст для заголовков */
+    font-weight: bold;           /* Жирный шрифт для заголовков */
+    font-size: 13px;             /* Размер шрифта заголовков */
+}
