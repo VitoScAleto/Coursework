@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  app:
+    image: course_work # Замените на имя вашего образа
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host # Использование сетевого интерфейса хоста
+    environment:
+      - DISPLAY=:1 # Передача переменной окружения DISPLAY для графического интерфейса
