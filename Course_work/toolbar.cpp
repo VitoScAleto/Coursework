@@ -66,7 +66,7 @@ public:
             headingBox->addItem("Heading 1");
             headingBox->addItem("Heading 2");
             headingBox->addItem("Heading 3");
-            connect(headingBox, &QComboBox::currentTextChanged, this, &ToolBar::changeHeading);
+
             layout4->addWidget(headingBox);
 
             // Кнопка вставки таблицы
@@ -108,12 +108,15 @@ private:
 private slots:
     void changeFont()
     {
+
         if (!textEdit)
             return;
 
         bool ok;
         QFont font = QFontDialog::getFont(&ok, textEdit->currentFont(), this);
+
         if (ok) {
+             setStyleSheet(styleSheet());
             QTextCursor cursor = textEdit->textCursor();
             QTextCharFormat format;
             format.setFont(font);
@@ -261,25 +264,7 @@ private slots:
         cursor.createList(listFormat);
     }
 
-    void changeHeading(const QString &heading)
-    {
-        if (!textEdit)
-            return;
 
-        QTextCursor cursor = textEdit->textCursor();
-        QTextBlockFormat blockFormat = cursor.blockFormat();
-
-        if (heading == "Heading 1")
-            blockFormat.setHeadingLevel(1);
-        else if (heading == "Heading 2")
-            blockFormat.setHeadingLevel(2);
-        else if (heading == "Heading 3")
-            blockFormat.setHeadingLevel(3);
-        else
-            blockFormat.setHeadingLevel(0);
-
-        cursor.setBlockFormat(blockFormat);
-    }
 
     void insertTable()
     {

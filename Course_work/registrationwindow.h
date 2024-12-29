@@ -14,6 +14,9 @@
 #include <QScreen>
 #include <QDebug>
 #include <QShortcut>
+#include <QObject>
+#include <QEvent>
+#include <QKeyEvent>
 
 class RegistrationWindow : public QWidget
 {
@@ -27,6 +30,7 @@ private slots:
     void backToLogin();
     void applyStyle();
     void Shortcut();
+
 private:
     QLineEdit *loginEdit;
     QLineEdit *nameEdit;
@@ -37,6 +41,24 @@ private:
     QPushButton *backToLoginBut;
     QShortcut **shortcutRegister;
     QShortcut *shortcutBackToLogin;
+};
+
+class NoSpaceFilter : public QObject {
+    Q_OBJECT
+public:
+    explicit NoSpaceFilter(QObject *parent = nullptr) : QObject(parent) {}
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            if (keyEvent->key() == Qt::Key_Space) {
+                // Игнорируем пробел
+                return true;
+            }
+        }
+        return QObject::eventFilter(obj, event);
+    }
 };
 
 #endif // REGISTRATIONWINDOW_H

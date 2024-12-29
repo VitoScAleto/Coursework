@@ -10,6 +10,14 @@ RegistrationWindow::RegistrationWindow(QWidget *parent) : QWidget(parent)
 
     Shortcut();
 
+    NoSpaceFilter *noSpaceFilter = new NoSpaceFilter(this);
+
+   // Применяем фильтр к полям ввода
+   loginEdit->installEventFilter(noSpaceFilter);
+   nameEdit->installEventFilter(noSpaceFilter);
+   passwordEdit->installEventFilter(noSpaceFilter);
+   confirmPasswordEdit->installEventFilter(noSpaceFilter);
+
     // Подключение сигналов
     connect(registerButton, &QPushButton::clicked, this, &RegistrationWindow::onRegisterButtonClicked);
     connect(backToLoginBut, &QPushButton::clicked, this, &RegistrationWindow::backToLogin);
@@ -65,6 +73,8 @@ void RegistrationWindow::onRegisterButtonClicked()
     QString name = nameEdit->text().trimmed();
     QString password = passwordEdit->text();
     QString confirmPassword = confirmPasswordEdit->text();
+
+
 
     // Проверка на пустые поля
     if (login.isEmpty() || name.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
@@ -249,3 +259,4 @@ void RegistrationWindow::applyStyle()
 
 
 }
+

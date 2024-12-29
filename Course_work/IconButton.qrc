@@ -17,5 +17,7 @@
         <file>6137877_art_design_paint_pallet_format_icon.svg</file>
         <file>color.svg</file>
         <file>cleatText.svg</file>
+        <file>printer.svg</file>
+        <file>settings.svg</file>
     </qresource>
 </RCC>

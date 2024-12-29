@@ -1,286 +1,216 @@
-/* Общие стили для всех элементов */
-* {
-    font-family: "Segoe UI", "Noto Sans Mono CJK TC", sans-serif;
-    border-radius: 4px;
-    outline: none;
-    transition: all 0.3s ease; /* Плавные анимации для всех элементов */
+/* Основной фон */
+QWidget {
+    background-color: #ECECEC;
+    color: #333333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* Светлая тема */
-QWidget {
-    background-color: #ffffff; /* Белый фон */
-    color: #333333; /* Темный текст */
-    animation: fadeIn 1s ease-in-out;
+/* Заголовки */
+QLabel {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Кнопки */
 QPushButton {
-    background-color: #e0e0e0; /* Светлый серый фон */
-    border: 1px solid #cccccc; /* Светлая рамка */
-    color: #333333; /* Темный текст */
-    padding: 6px 12px;
+    background-color: #D1D1D1;
+    border: 1px solid #B0B0B0;
+    color: #333333;
+    padding: 6px 16px;
+    border-radius: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 QPushButton:hover {
-    background-color: #d4d4d4; /* Немного темнее при наведении */
-    border: 1px solid #bbbbbb; /* Подсветка границы при наведении */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень при наведении */
+    background-color: #B8B8B8;
 }
 
 QPushButton:pressed {
-    background-color: #c8c8c8; /* Темнее при нажатии */
-    border: 1px solid #aaaaaa;
+    background-color: #A0A0A0;
 }
 
-/* Ввод текста и комбинированные элементы */
-QLineEdit, QTextEdit, QComboBox {
-    background-color: #f4f4f4; /* Светлый фон */
-    color: #333333; /* Темный текст */
-    border: 1px solid #cccccc; /* Светлая рамка */
-    padding: 4px;
-    border-radius: 3px;
-}
-
-QTextEdit {
-    background-color: #f0f0f0; /* Еще более светлый фон для текста */
-    min-height: 100px;
-}
-
-QLineEdit:focus, QTextEdit:focus {
-    border-color: #bbbbbb; /* Легкая сероватая рамка при фокусе */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Легкая тень при фокусе */
-}
-
-QComboBox {
-    background-color: #f0f0f0; /* Светлый фон для выпадающего списка */
-    border: 1px solid #cccccc; /* Светлая рамка */
-    padding: 6px;
-    border-radius: 4px;
-}
-
-QComboBox:hover {
-    border-color: #bbbbbb;
-}
-
-QComboBox::down-arrow {
-    border: none;
-    image: url(':/icons/down-arrow.svg');
-}
-
-QComboBox::drop-down {
-    background-color: #e0e0e0; /* Светлый фон для стрелки */
-}
-
-/* Списки */
-QListWidget {
-    background-color: #f4f4f4; /* Светлый фон */
-    color: #333333; /* Темный текст */
-    border: 1px solid #cccccc; /* Светлая рамка */
-    padding: 4px;
-    border-radius: 4px;
-}
-
-QListWidget::item:hover {
-    background-color: #e0e0e0; /* Немного темнее при наведении */
-}
-
-QListWidget::item:selected {
-    background-color: #d0d0d0; /* Светлый фон при выделении */
-    color: #333333; /* Темный текст */
+/* Кнопки с иконками */
+QPushButton::icon {
+    margin-left: 10px;
 }
 
 /* Панель инструментов */
-QWidget#ToolBar {
-    background-color: #f4f4f4; /* Светлый фон */
-    border: 1px solid #cccccc; /* Светлая рамка */
-    padding: 6px;
-}
-
-/* Площадка для прокрутки (ScrollArea) */
-QScrollArea {
-    background-color: transparent;
+QToolBar {
+    background-color: #D9D9D9;
     border: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-QScrollArea::widget {
-    background-color: #f4f4f4; /* Светлый фон прокручиваемого содержимого */
-    border-radius: 4px;
-    padding: 10px;
+/* Список страниц */
+QListWidget {
+    background-color: #FFFFFF;
+    border: 1px solid #B0B0B0;
+    color: #333333;
+    padding: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* Эффекты на ScrollBar */
+QListWidget::item {
+    padding: 5px;
+}
+
+QListWidget::item:selected {
+    background-color: #B8B8B8;
+}
+
+/* Строка прокрутки */
 QScrollBar:vertical, QScrollBar:horizontal {
-    background-color: #e0e0e0; /* Светлый фон скроллбаров */
+    background: #D1D1D1;
     width: 12px;
     height: 12px;
 }
 
 QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
-    background-color: #b0b0b0; /* Тёмно-серый для ползунка */
+    background-color: #A0A0A0;
     border-radius: 6px;
 }
 
 QScrollBar::handle:vertical:hover, QScrollBar::handle:horizontal:hover {
-    background-color: #a0a0a0; /* Темнее при наведении */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    background-color: #888888;
 }
 
-QScrollBar::add-line:vertical, QScrollBar::add-line:horizontal,
-QScrollBar::sub-line:vertical, QScrollBar::sub-line:horizontal {
-    background: none;
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
+    background-color: #D1D1D1;
 }
 
-QScrollBar::add-page:vertical, QScrollBar::add-page:horizontal,
-QScrollBar::sub-page:vertical, QScrollBar::sub-page:horizontal {
-    background: none;
+QScrollBar::add-line:hover:vertical, QScrollBar::sub-line:hover:vertical,
+QScrollBar::add-line:hover:horizontal, QScrollBar::sub-line:hover:horizontal {
+    background-color: #B0B0B0;
 }
 
-/* Выделение текста */
-QTextEdit:focus {
-    border: 1px solid #bbbbbb; /* Легкая сероватая рамка при фокусе */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Легкая тень при фокусе */
+/* Ввод текста */
+QTextEdit, QLineEdit {
+    background-color: #FFFFFF;
+    border: 1px solid #B0B0B0;
+    color: #333333;
+    padding: 6px;
+    font-size: 14px;
+    border-radius: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* Меню */
-QMenuBar {
-    background-color: #f0f0f0; /* Светлый фон */
-    color: #333333; /* Темный текст */
+QTextEdit:focus, QLineEdit:focus {
+    border: 1px solid #888888;
 }
 
-QMenuBar::item {
-    padding: 8px;
-    background-color: transparent;
+/* Комбо-боксы */
+QComboBox {
+    background-color: #F5F5F5;
+    border: 1px solid #B0B0B0;
+    color: #333333;
+    padding: 6px;
+    border-radius: 5px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-QMenuBar::item:selected {
-    background-color: #e0e0e0; /* Слегка темнее при выделении */
-}
-
-QMenu {
-    background-color: #f4f4f4; /* Светлый фон для меню */
-    border: 1px solid #cccccc; /* Светлая рамка */
-}
-
-QMenu::item:selected {
-    background-color: #e0e0e0; /* Слегка темнее при выделении */
-}
-
-QMenu::item:hover {
-    background-color: #d0d0d0; /* Немного темнее при наведении */
-}
-
-/* Стиль для ToolButton */
-QToolButton {
-    background: none;
+QComboBox::drop-down {
     border: none;
-    padding: 4px;
-    margin: 2px;
 }
 
-QToolButton:hover {
-    background-color: #e0e0e0;
-    border-radius: 4px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+QComboBox QAbstractItemView {
+    background-color: #FFFFFF;
+    color: #333333;
+    border: 1px solid #B0B0B0;
 }
 
-QToolButton:pressed {
-    background-color: #d4d4d4;
+QComboBox QAbstractItemView::item:selected {
+    background-color: #B8B8B8;
 }
 
-QToolButton::menu-indicator {
-    image: url(':/icons/arrow-down.svg');
+/* Выравнивание текста */
+QPushButton[objectName="alignLeft"] {
+    background-color: #D1D1D1;
 }
 
-/* Стили для заголовков */
+QPushButton[objectName="alignCenter"] {
+    background-color: #D1D1D1;
+}
+
+QPushButton[objectName="alignRight"] {
+    background-color: #D1D1D1;
+}
+
+QPushButton[objectName="alignJustify"] {
+    background-color: #D1D1D1;
+}
+
+/* Вставка таблицы */
+QPushButton[objectName="insertTable"] {
+    background-color: #D1D1D1;
+}
+
+/* Цвет текста */
+QPushButton[objectName="changeColor"] {
+    background-color: #D1D1D1;
+}
+
+/* Цвет фона */
+QPushButton[objectName="changeBgColor"] {
+    background-color: #D1D1D1;
+}
+
+/* Выбор шрифта */
+QComboBox#fontSizeBox {
+    background-color: #F5F5F5;
+    border: 1px solid #B0B0B0;
+    color: #333333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 QComboBox#headingBox {
-    background-color: #f4f4f4;
+    background-color: #F5F5F5;
+    border: 1px solid #B0B0B0;
     color: #333333;
-    border: 1px solid #cccccc;
-    padding: 4px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-QComboBox#headingBox::item:selected {
-    background-color: #d0d0d0; /* Светлый фон при выделении */
+QPushButton[objectName="clearFormatting"] {
+    background-color: #D1D1D1;
 }
 
-/* Диалог выбора цвета (QColorDialog) */
-QColorDialog {
-    background-color: #ffffff; /* Белый фон */
-    color: #333333; /* Темный текст */
-    border-radius: 10px;
-    padding: 5px;
-}
-
-QColorDialog QToolButton {
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    padding: 8px;
-}
-
-QColorDialog QToolButton:hover {
-    background-color: #d4d4d4;
-}
-
-QColorDialog QToolButton:pressed {
-    background-color: #c8c8c8;
-}
-
-/* Диалог ввода чисел (QInputDialog) */
-QInputDialog {
-    background-color: #ffffff; /* Белый фон */
-    color: #333333; /* Темный текст */
-    border-radius: 8px;
-    padding: 10px;
-}
-
-QInputDialog QLineEdit {
-    background-color: #f4f4f4; /* Светлый фон для поля ввода */
-    border: 1px solid #cccccc; /* Светлая рамка */
-    border-radius: 5px;
-    padding: 8px;
-}
-
-QInputDialog QPushButton {
-    background-color: #e0e0e0;
+/* Панель с вкладками */
+QTabBar {
+    background-color: #D9D9D9;
     color: #333333;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+QTabBar::tab {
+    background-color: #F5F5F5;
+    padding: 6px;
     border-radius: 5px;
+}
+
+QTabBar::tab:selected {
+    background-color: #B8B8B8;
+}
+QListWidget {
+    background-color: #ffffff;
+    border: 1px solid #CCCCCC;
+    color: #333333;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+}
+
+QListWidget::item {
     padding: 10px;
+    border-bottom: 1px solid #DDDDDD;
 }
 
-QInputDialog QPushButton:hover {
-    background-color: #d4d4d4;
+QListWidget::item:selected {
+    background-color: #E0E0E0;  /* Светлый фон при выделении */
+    color: #000000;  /* Черный цвет текста при выделении */
 }
 
-QTextTable {
-    border: 1px solid #cccccc; /* Светлая рамка для таблицы */
-    border-radius: 4px;         /* Скругленные углы */
-    background-color: #ffffff;  /* Белый фон для таблицы */
-}
-
-/* Стилизация ячеек таблицы */
-QTextTableCell {
-    border: 1px solid #cccccc;  /* Светлая рамка ячеек */
-    padding: 8px;                /* Отступы внутри ячеек */
-    background-color: #f9f9f9;  /* Светлый фон ячеек */
-    color: #333333;              /* Темный текст в ячейках */
-}
-
-/* Стилизация ячеек при наведении */
-QTextTableCell:hover {
-    background-color: #e8e8e8;  /* Немного темнее фон при наведении */
-}
-
-/* Стилизация текста в ячейках */
-QTextBlock {
-    color: #333333;             /* Темный цвет текста */
-    font-size: 12px;            /* Размер шрифта текста */
-    font-family: "Segoe UI", "Arial", sans-serif;  /* Шрифт текста */
-}
-
-/* Стилизация заголовков таблицы */
-QTextTable::header {
-    background-color: #e0e0e0;  /* Светлый фон для заголовков */
-    color: #333333;              /* Темный текст для заголовков */
-    font-weight: bold;           /* Жирный шрифт для заголовков */
-    font-size: 13px;             /* Размер шрифта заголовков */
+QListWidget::item:hover {
+    background-color: #F0F0F0; /* Светло-серый фон при наведении */
+    color: #000000;
 }

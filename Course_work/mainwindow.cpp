@@ -13,11 +13,7 @@ MainWindow::MainWindow(QWidget *parent, int user_id, QString name) : QMainWindow
     textManager = new TextManager(this, user_id, name);
     layout->addWidget(textManager);
 
-    // Добавление кнопки "Настройки"
 
-
-    // Подключаем сигнал нажатия на кнопку к слоту openSettings
-    //connect(settingsButton, &QPushButton::clicked, this, &MainWindow::openSettings);
 
     setCentralWidget(centralWidget);
 }

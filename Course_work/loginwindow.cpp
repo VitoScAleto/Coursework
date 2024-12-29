@@ -147,3 +147,21 @@ void LoginWindow::onRegisterButtonClicked() {
     registerWindow->show();
     this->close();
 }
+
+void LoginWindow:: applyTheme(const QString &theme)
+    {
+           QString qssFileName = theme == "dark" ? "testDark.qss" : "testLight.qss";
+           QString pathToFile = ":style/style/" + qssFileName;
+           QFile file(pathToFile);
+
+           if (file.open(QFile::ReadOnly))
+           {
+               QString styleSheet = QTextStream(&file).readAll();
+               setStyleSheet(styleSheet);
+               file.close();
+           }
+           if (!file.open(QFile::ReadOnly)) {
+              qDebug() << "Не удалось открыть файл стилей:" << file.errorString();
+
+           }
+    }

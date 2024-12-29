@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_XML_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DISABLE_DEPRECATED_BEFORE=0x060000 -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SQL_LIB -DQT_XML_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../Course_work -I. -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I../Course_work -I. -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = Course_work1.0.0
 DISTDIR = /home/pushk/build-Course_work-Desktop-Release/.tmp/Course_work1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) -L/usr/lib -lpq /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Sql.so /usr/lib/x86_64-linux-gnu/libQt5Xml.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -L/usr/lib -lpq /usr/lib/x86_64-linux-gnu/libQt5PrintSupport.so /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Sql.so /usr/lib/x86_64-linux-gnu/libQt5Xml.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -61,6 +61,7 @@ SOURCES       = ../Course_work/database.cpp \
 		../Course_work/textmanager.cpp \
 		../Course_work/toolbar.cpp qrc_IconButton.cpp \
 		qrc_style.cpp \
+		qrc_qmake_qmake_qm_files.cpp \
 		moc_loginwindow.cpp \
 		moc_mainwindow.cpp \
 		moc_registrationwindow.cpp \
@@ -77,13 +78,15 @@ OBJECTS       = database.o \
 		toolbar.o \
 		qrc_IconButton.o \
 		qrc_style.o \
+		qrc_qmake_qmake_qm_files.o \
 		moc_loginwindow.o \
 		moc_mainwindow.o \
 		moc_registrationwindow.o \
 		moc_settingsdialog.o \
 		moc_textmanager.o \
 		moc_toolbar.o
-DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
+DIST          = ../Course_work/configDB.json \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf \
@@ -153,11 +156,13 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		../Course_work/.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lrelease.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qtquickcompiler.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf \
@@ -197,6 +202,7 @@ first: all
 
 Course_work: ui_mainwindow.h $(OBJECTS)  
 	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS) $(OBJCOMP) $(LIBS)
+	cp /home/pushk/Course_work/configDB.json /home/pushk/build-Course_work-Desktop-Release
 
 Makefile: ../Course_work/Course_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -268,11 +274,13 @@ Makefile: ../Course_work/Course_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/l
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lrelease.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qtquickcompiler.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf \
@@ -290,7 +298,8 @@ Makefile: ../Course_work/Course_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/l
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../Course_work/Course_work.pro \
 		../Course_work/IconButton.qrc \
-		../Course_work/style.qrc
+		../Course_work/style.qrc \
+		qmake_qmake_qm_files.qrc
 	$(QMAKE) -o Makefile ../Course_work/Course_work.pro -spec linux-g++ CONFIG+=qtquickcompiler
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf:
@@ -362,11 +371,13 @@ Makefile: ../Course_work/Course_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/l
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lrelease.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qtquickcompiler.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt.prf:
@@ -385,6 +396,7 @@ Makefile: ../Course_work/Course_work.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/l
 ../Course_work/Course_work.pro:
 ../Course_work/IconButton.qrc:
 ../Course_work/style.qrc:
+qmake_qmake_qm_files.qrc:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../Course_work/Course_work.pro -spec linux-g++ CONFIG+=qtquickcompiler
 
@@ -399,12 +411,11 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../Course_work/IconButton.qrc ../Course_work/style.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents ../Course_work/IconButton.qrc ../Course_work/style.qrc qmake_qmake_qm_files.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Course_work/database.h ../Course_work/loginwindow.h ../Course_work/mainwindow.h ../Course_work/registrationwindow.h ../Course_work/settingsdialog.h ../Course_work/textmanager.h ../Course_work/toolbar.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../Course_work/database.cpp ../Course_work/loginwindow.cpp ../Course_work/main.cpp ../Course_work/mainwindow.cpp ../Course_work/registrationwindow.cpp ../Course_work/settingsdialog.cpp ../Course_work/textmanager.cpp ../Course_work/toolbar.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../Course_work/mainwindow.ui $(DISTDIR)/
-	$(COPY_FILE) --parents CONFIG += lrelease $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -428,28 +439,32 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all: qrc_IconButton.cpp qrc_style.cpp
+compiler_lrelease_make_all:
+compiler_lrelease_clean:
+compiler_rcc_make_all: qrc_IconButton.cpp qrc_style.cpp qrc_qmake_qmake_qm_files.cpp
 compiler_rcc_clean:
-	-$(DEL_FILE) qrc_IconButton.cpp qrc_style.cpp
+	-$(DEL_FILE) qrc_IconButton.cpp qrc_style.cpp qrc_qmake_qmake_qm_files.cpp
 qrc_IconButton.cpp: ../Course_work/IconButton.qrc \
 		/usr/lib/qt5/bin/rcc \
-		../Course_work/underline-solid.svg \
-		../Course_work/align-justify-solid.svg \
-		../Course_work/font-solid.svg \
-		../Course_work/DelDoc.svg \
+		../Course_work/printer.svg \
 		../Course_work/list-ul-solid.svg \
 		../Course_work/6137877_art_design_paint_pallet_format_icon.svg \
-		../Course_work/cleatText.svg \
-		../Course_work/table-cells-solid.svg \
+		../Course_work/align-center-solid.svg \
+		../Course_work/align-right-solid.svg \
+		../Course_work/settings.svg \
+		../Course_work/highlighter-solid.svg \
+		../Course_work/DelDoc.svg \
 		../Course_work/list-ol-solid.svg \
 		../Course_work/align-left-solid.svg \
-		../Course_work/color.svg \
-		../Course_work/highlighter-solid.svg \
-		../Course_work/italic-solid.svg \
+		../Course_work/font-solid.svg \
 		../Course_work/bold-solid.svg \
+		../Course_work/table-cells-solid.svg \
+		../Course_work/color.svg \
+		../Course_work/italic-solid.svg \
 		../Course_work/AddDoc.svg \
-		../Course_work/align-center-solid.svg \
-		../Course_work/align-right-solid.svg
+		../Course_work/cleatText.svg \
+		../Course_work/align-justify-solid.svg \
+		../Course_work/underline-solid.svg
 	/usr/lib/qt5/bin/rcc -name IconButton ../Course_work/IconButton.qrc -o qrc_IconButton.cpp
 
 qrc_style.cpp: ../Course_work/style.qrc \
@@ -457,6 +472,10 @@ qrc_style.cpp: ../Course_work/style.qrc \
 		../Course_work/style/testLight.qss \
 		../Course_work/style/testDark.qss
 	/usr/lib/qt5/bin/rcc -name style ../Course_work/style.qrc -o qrc_style.cpp
+
+qrc_qmake_qmake_qm_files.cpp: qmake_qmake_qm_files.qrc \
+		/usr/lib/qt5/bin/rcc
+	/usr/lib/qt5/bin/rcc -name qmake_qmake_qm_files qmake_qmake_qm_files.qrc -o qrc_qmake_qmake_qm_files.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
@@ -471,7 +490,7 @@ moc_loginwindow.cpp: ../Course_work/loginwindow.h \
 		../Course_work/database.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/loginwindow.h -o moc_loginwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/loginwindow.h -o moc_loginwindow.cpp
 
 moc_mainwindow.cpp: ../Course_work/mainwindow.h \
 		../Course_work/settingsdialog.h \
@@ -479,28 +498,28 @@ moc_mainwindow.cpp: ../Course_work/mainwindow.h \
 		../Course_work/textmanager.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/mainwindow.h -o moc_mainwindow.cpp
 
 moc_registrationwindow.cpp: ../Course_work/registrationwindow.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/registrationwindow.h -o moc_registrationwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/registrationwindow.h -o moc_registrationwindow.cpp
 
 moc_settingsdialog.cpp: ../Course_work/settingsdialog.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/settingsdialog.h -o moc_settingsdialog.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/settingsdialog.h -o moc_settingsdialog.cpp
 
 moc_textmanager.cpp: ../Course_work/textmanager.h \
 		../Course_work/toolbar.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/textmanager.h -o moc_textmanager.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/textmanager.h -o moc_textmanager.cpp
 
 moc_toolbar.cpp: ../Course_work/toolbar.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/toolbar.h -o moc_toolbar.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/toolbar.h -o moc_toolbar.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -510,7 +529,7 @@ compiler_moc_source_clean:
 toolbar.moc: ../Course_work/toolbar.cpp \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/toolbar.cpp -o toolbar.moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/pushk/build-Course_work-Desktop-Release/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/pushk/Course_work -I/usr/include/postgresql -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtSql -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/11 -I/usr/include/x86_64-linux-gnu/c++/11 -I/usr/include/c++/11/backward -I/usr/lib/gcc/x86_64-linux-gnu/11/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../Course_work/toolbar.cpp -o toolbar.moc
 
 compiler_uic_make_all: ui_mainwindow.h
 compiler_uic_clean:
@@ -581,6 +600,9 @@ qrc_IconButton.o: qrc_IconButton.cpp
 
 qrc_style.o: qrc_style.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_style.o qrc_style.cpp
+
+qrc_qmake_qmake_qm_files.o: qrc_qmake_qmake_qm_files.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_qmake_qmake_qm_files.o qrc_qmake_qmake_qm_files.cpp
 
 moc_loginwindow.o: moc_loginwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_loginwindow.o moc_loginwindow.cpp

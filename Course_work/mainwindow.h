@@ -35,6 +35,7 @@
 #include <QFileDialog>
 #include <QMenuBar>
 
+
 class MainWindow : public QMainWindow {
     Q_OBJECT
 

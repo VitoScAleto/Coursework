@@ -289,7 +289,31 @@ private slots:
         cursor.createList(listFormat);
     }
 
+    void setLineSpacing(double spacing)
+    {
+        if (!textEdit)
+            return;
 
+        QTextCursor cursor = textEdit->textCursor();
+        QTextBlockFormat format = cursor.blockFormat();
+
+        format.setLineHeight(spacing, QTextBlockFormat::SingleHeight);  // Устанавливаем межстрочный интервал
+        cursor.mergeBlockFormat(format);
+        textEdit->mergeCurrentCharFormat(cursor.charFormat());
+    }
+
+    // Слот для установки отступов
+    void setTextIndent(int indent)
+    {
+        if (!textEdit)
+            return;
+
+        QTextCursor cursor = textEdit->textCursor();
+        QTextBlockFormat format = cursor.blockFormat();
+        format.setTextIndent(indent);  // Устанавливаем отступ
+        cursor.mergeBlockFormat(format);
+        textEdit->mergeCurrentCharFormat(cursor.charFormat());
+    }
 
     void insertTable()
     {

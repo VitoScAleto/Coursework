@@ -2,50 +2,68 @@
 #include "database.h"
 #include "settingsdialog.h"
 
-TextManager::TextManager(QWidget *parent, int user_id, QString name) : QWidget(parent), q_user_id(user_id), q_name(name)
+TextManager::TextManager(QWidget *parent, int user_id, QString name)
+    : QWidget(parent), q_user_id(user_id), q_name(name)
 {
-    QPushButton *settingsButton = new QPushButton("Настройки", this);
-
     QLabel *label = new QLabel("Привет, " + q_name, this);
 
+    // Создаем QSplitter, который разделит пространство на две части
     QSplitter *splitter = new QSplitter(this);
 
-    // Левая панель
+    // Левая панель (с кнопками и списком)
     QWidget *leftWidget = new QWidget;
-    leftWidget->setMinimumWidth(150);
-    leftWidget->setMaximumWidth(300);
+    leftWidget->setMinimumWidth(150); // Минимальная ширина панели
+    leftWidget->setMaximumWidth(300); // Максимальная ширина панели
+
     QVBoxLayout *leftLayout = new QVBoxLayout(leftWidget);
 
     pageList = new QListWidget(this);
-
     connect(pageList, &QListWidget::currentRowChanged, this, &TextManager::switchPage);
-
     pageList->setContextMenuPolicy(Qt::CustomContextMenu);
-
     connect(pageList, &QListWidget::customContextMenuRequested, this, &TextManager::showContextMenu);
-    connect(settingsButton, &QPushButton::clicked, this, &TextManager::openSettings);
 
-    leftLayout->addWidget(label);
-    leftLayout->addWidget(settingsButton); // Добавляем кнопку в компоновку
+    leftLayout->addWidget(label);  // Добавляем приветствие
+    leftLayout->addWidget(createButtonWithIcon(":icons/settings.svg", &TextManager::openSettings));
     leftLayout->addWidget(createButtonWithIcon(":icons/AddDoc.svg", &TextManager::addPage));
     leftLayout->addWidget(createButtonWithIcon(":icons/DelDoc.svg", &TextManager::deletePage));
-    leftLayout->addWidget(pageList);
-    leftLayout->addStretch();
+    leftLayout->addWidget(createButtonWithIcon(":icons/printer.svg", &TextManager::printCurrentPage));
+    leftLayout->addWidget(pageList);  // Список страниц
+    leftLayout->addStretch();  // Заполняем оставшееся пространство
 
+    // Устанавливаем политику размера для левой панели
+    leftWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+
+    // Добавляем левую панель в splitter
     splitter->addWidget(leftWidget);
 
-    // Правая панель
+    // Правая панель (с текстом)
     textStack = new QStackedWidget(this);
     splitter->addWidget(textStack);
 
+    // Устанавливаем основной макет
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->addWidget(splitter);
+    mainLayout->addWidget(splitter);  // Добавляем splitter в основной макет
     setLayout(mainLayout);
 
-    toolbar = nullptr;  // Инициализируем toolbar как nullptr
+    // Инициализируем toolbar как nullptr
+    toolbar = nullptr;
 
+    // Загружаем страницы из базы данных
     loadPagesFromDatabase();
+}
+void TextManager::printCurrentPage()
+{
+    QTextEdit *currentTextEdit = qobject_cast<QTextEdit *>(textStack->currentWidget());
+    if (!currentTextEdit) {
 
+        return;
+    }
+
+    QPrinter printer;
+    QPrintDialog printDialog(&printer, this);
+    if (printDialog.exec() == QDialog::Accepted) {
+        currentTextEdit->print(&printer);
+    }
 }
 
 void TextManager::addPage()
@@ -55,7 +73,7 @@ void TextManager::addPage()
     QTextDocument *doc = edit->document();
 
     // Устанавливаем отступы для документа
-    doc->setDocumentMargin(25);
+    doc->setDocumentMargin(50);
 
     textStack->addWidget(edit);
     pageList->addItem(QString("Page %1").arg(textStack->count()));
@@ -84,6 +102,7 @@ void TextManager::handleCursorChange()
     QTextEdit *currentTextEdit = qobject_cast<QTextEdit *>(textStack->currentWidget());
     if (!currentTextEdit) return;
 
+    // Проверяем, есть ли выделение текста
     QTextCursor cursor = currentTextEdit->textCursor();
     if (!cursor.hasSelection()) {
         // Если нет выделения, скрываем ToolBar
@@ -111,6 +130,43 @@ void TextManager::handleCursorChange()
     QWidget *topLevelWidget = toolbar->topLevelWidget();
     if (topLevelWidget) {
         topLevelWidget->raise();  // Поднимаем родительское окно если оно есть
+    }
+}
+
+// Перехват событий мыши в eventFilter
+bool TextManager::eventFilter(QObject *obj, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        if (QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(event)) {
+            QTextEdit *currentTextEdit = qobject_cast<QTextEdit *>(obj);
+            if (!currentTextEdit) return false;
+
+            QTextCursor cursor = currentTextEdit->textCursor();
+            if (cursor.hasSelection()) {
+                // Если есть выделение, показываем ToolBar
+                QRect rect = currentTextEdit->cursorRect(cursor);
+
+                if (toolbar) {
+                    // Вычисляем координаты для тулбара
+                    QPoint toolbarPos = rect.topLeft() + QPoint(0, -toolbar->height() + 175);  // Отступ сверху
+
+                    // Перемещаем тулбар в нужную позицию
+                    toolbar->move(currentTextEdit->mapToGlobal(toolbarPos));
+                    toolbar->show();
+                    toolbar->raise();  // Поднимаем ToolBar поверх других виджетов
+                }
+            }
+        }
+    }
+    return QObject::eventFilter(obj, event);  // Передаем событие дальше
+}
+
+// Подключение фильтра событий в конструкторе или в другом месте
+void TextManager::setupEventFilter()
+{
+    QTextEdit *currentTextEdit = qobject_cast<QTextEdit *>(textStack->currentWidget());
+    if (currentTextEdit) {
+        currentTextEdit->installEventFilter(this);
     }
 }
 
@@ -538,7 +594,8 @@ QPushButton* TextManager::createButtonWithIcon(const QString &iconPath, void (Te
     QIcon icon(iconPath);  // Загружаем иконку
     button->setIcon(icon);  // Устанавливаем иконку
     button->setIconSize(QSize(20, 20));
-    button->setFixedSize(100, 40);
+    button->setFixedSize(280, 40);
+    button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     connect(button, &QPushButton::clicked, this, slot);  // Привязываем слот
     return button;
 }

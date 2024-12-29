@@ -14,7 +14,7 @@ class LoginWindow : public QWidget {
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
-
+    void applyTheme(const QString &theme);
 private slots:
     void onLoginButtonClicked();
     void onRegisterButtonClicked();

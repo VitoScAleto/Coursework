@@ -1,6 +1,7 @@
 #ifndef TEXTMANAGER_H
 #define TEXTMANAGER_H
-
+#include <QPrintDialog>
+#include <QPrinter>
 #include <QApplication>
 #include <QMainWindow>
 #include <QScrollArea>
@@ -64,7 +65,9 @@ public:
     void applyTheme(const QString &theme);
 
     // Database
-
+    void printCurrentPage();
+    bool eventFilter(QObject *obj, QEvent *event);
+    void setupEventFilter();
     QPushButton* createButtonWithIcon(const QString &iconPath, void (TextManager::*slot)());
 private slots:
     void addPage();
